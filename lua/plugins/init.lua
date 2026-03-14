@@ -24,6 +24,20 @@ return {
     require("plugins.lsp.init"),
     require("plugins.lsp.cmp"),  -- 这应该是第25行左右
     
+    -- 标签美化
+    {
+        "akinsho/bufferline.nvim",
+        dependencies = {
+            "nvim-tree/nvim-web-devicons",
+            "moll/vim-bbye",  -- 更好的关闭缓冲区
+        },
+        version = "*",
+        event = "BufEnter",
+        config = function()
+            require("plugins.bufferline")
+        end,
+    },
+
     -- 启动页美化
     {
         "goolord/alpha-nvim",
