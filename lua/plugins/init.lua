@@ -24,6 +24,19 @@ return {
     require("plugins.lsp.init"),
     require("plugins.lsp.cmp"),  -- 这应该是第25行左右
     
+    -- 启动页美化
+    {
+        "goolord/alpha-nvim",
+        dependencies = { 
+            "nvim-tree/nvim-web-devicons",
+            "nvim-lua/plenary.nvim",
+        },
+        event = "VimEnter",
+        config = function()
+            require("plugins.alpha")  -- 我们将在新文件中配置
+        end,
+    },
+
     -- 其他有用插件
     {
         "windwp/nvim-autopairs",
