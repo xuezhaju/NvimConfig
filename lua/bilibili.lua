@@ -17,7 +17,7 @@ local function ensure_rosesong()
   end
 end
 
--- 新增：关闭 RoseSong
+-- 关闭 RoseSong
 local function stop_rosesong()
   if is_rosesong_running() then
     vim.fn.jobstart("rsg stop", { detach = true })
@@ -25,12 +25,10 @@ local function stop_rosesong()
   end
 end
 
--- 新增：退出 Neovim 时自动关闭 RoseSong
+-- 退出 Neovim 时自动关闭 RoseSong
 local function setup_autoclose()
-  -- 创建自动命令组
   local augroup = vim.api.nvim_create_augroup("RoseSongAutoClose", { clear = true })
   
-  -- 在退出 Neovim 时自动关闭 RoseSong
   vim.api.nvim_create_autocmd("VimLeavePre", {
     group = augroup,
     callback = function()
@@ -40,11 +38,9 @@ local function setup_autoclose()
     end,
   })
   
-  -- 在退出 Neovim 后强制清理（备用）
   vim.api.nvim_create_autocmd("VimLeave", {
     group = augroup,
     callback = function()
-      -- 确保所有子进程都被清理
       vim.fn.jobstart("pkill -f rosesong", { detach = true })
     end,
   })
@@ -61,14 +57,24 @@ local function get_now_playing()
   return "暂无播放"
 end
 
--- 跳转指定数量
-local function skip_songs(count)
+-- 前进指定数量
+local function skip_forward(count)
   ensure_rosesong()
   count = tonumber(count) or 1
   for i = 1, count do
     vim.fn.jobstart("rsg next", { detach = true })
   end
-  vim.notify(string.format("⏭️ 跳过了 %d 首", count), vim.log.levels.INFO)
+  vim.notify(string.format("⏭️ 前进了 %d 首", count), vim.log.levels.INFO)
+end
+
+-- 后退指定数量
+local function skip_backward(count)
+  ensure_rosesong()
+  count = tonumber(count) or 1
+  for i = 1, count do
+    vim.fn.jobstart("rsg previous", { detach = true })
+  end
+  vim.notify(string.format("⏮️ 后退了 %d 首", count), vim.log.levels.INFO)
 end
 
 -- 显示菜单
@@ -77,28 +83,29 @@ function M.show_menu()
   local now_playing = get_now_playing()
   
   local items = {
-    { "1", "🎵 输入BV号", "播放单个视频" },
-    { "2", "📁 输入收藏夹FID", "播放收藏夹" },
-    { "3", "⏯️  播放/暂停", "切换播放状态" },
-    { "4", "⏭️  下一首", "切换到下一首" },
-    { "5", "⏮️  上一首", "切换到上一首" },
-    { "6", "⏹️  停止", "停止播放" },
-    { "7", "⏭️⏭️  跳过多首", "输入数字跳转" },
-    { "8", "ℹ️  当前播放", now_playing },
-    { "9", "🔚 退出RoseSong", "关闭音乐播放器" },
+    { "🎵 输入BV号", "播放单个视频" },
+    { "📁 输入收藏夹FID", "播放收藏夹" },
+    { "⏯️  播放/暂停", "切换播放状态" },
+    { "⏭️  下一首", "切换到下一首" },
+    { "⏮️  上一首", "切换到上一首" },
+    { "⏹️  停止", "停止播放" },
+    { "⏭️⏭️  前进多首", "输入数字前进" },
+    { "⏮️⏮️  后退多首", "输入数字后退" },
+    { "ℹ️  当前播放", now_playing },
+    { "🔚 退出RoseSong", "关闭音乐播放器" },
   }
   
   vim.ui.select(items, {
     prompt = "🎵 Bilibili 音乐控制",
     format_item = function(item)
-      return string.format("%s. %s - %s", item[1], item[2], item[3])
+      return string.format("%s - %s", item[1], item[2])
     end,
   }, function(choice)
     if not choice then return end
     
     local cmd = choice[1]
     
-    if cmd == "1" then
+    if cmd == "🎵 输入BV号" then
       vim.ui.input({ prompt = "输入BV号 (如 BV1xx411c7mD): " }, function(input)
         if input and input ~= "" then
           ensure_rosesong()
@@ -110,7 +117,7 @@ function M.show_menu()
         end
       end)
       
-    elseif cmd == "2" then
+    elseif cmd == "📁 输入收藏夹FID" then
       vim.ui.input({ prompt = "输入收藏夹FID (数字): " }, function(input)
         if input and input ~= "" then
           ensure_rosesong()
@@ -119,36 +126,43 @@ function M.show_menu()
         end
       end)
       
-    elseif cmd == "3" then
+    elseif cmd == "⏯️  播放/暂停" then
       ensure_rosesong()
       vim.fn.jobstart("rsg play", { detach = true })
       vim.notify("播放/暂停", vim.log.levels.INFO)
       
-    elseif cmd == "4" then
+    elseif cmd == "⏭️  下一首" then
       ensure_rosesong()
       vim.fn.jobstart("rsg next", { detach = true })
       vim.notify("下一首", vim.log.levels.INFO)
       
-    elseif cmd == "5" then
+    elseif cmd == "⏮️  上一首" then
       ensure_rosesong()
       vim.fn.jobstart("rsg previous", { detach = true })
       vim.notify("上一首", vim.log.levels.INFO)
       
-    elseif cmd == "6" then
+    elseif cmd == "⏹️  停止" then
       vim.fn.jobstart("rsg stop", { detach = true })
       vim.notify("停止播放", vim.log.levels.INFO)
       
-    elseif cmd == "7" then
-      vim.ui.input({ prompt = "跳过多首 (输入数字如 5 10): " }, function(input)
+    elseif cmd == "⏭️⏭️  前进多首" then
+      vim.ui.input({ prompt = "前进几首? (输入数字): " }, function(input)
         if input and input ~= "" then
-          skip_songs(input)
+          skip_forward(input)
         end
       end)
       
-    elseif cmd == "8" then
+    elseif cmd == "⏮️⏮️  后退多首" then
+      vim.ui.input({ prompt = "后退几首? (输入数字): " }, function(input)
+        if input and input ~= "" then
+          skip_backward(input)
+        end
+      end)
+      
+    elseif cmd == "ℹ️  当前播放" then
       vim.notify(now_playing, vim.log.levels.INFO)
       
-    elseif cmd == "9" then
+    elseif cmd == "🔚 退出RoseSong" then
       stop_rosesong()
     end
   end)
@@ -177,17 +191,22 @@ function M.stop()
   vim.fn.jobstart("rsg stop", { detach = true })
 end
 
--- 跳过多首
-function M.skip(count)
-  skip_songs(count)
+-- 前进多首
+function M.forward(count)
+  skip_forward(count)
 end
 
--- 新增：手动关闭 RoseSong
+-- 后退多首
+function M.backward(count)
+  skip_backward(count)
+end
+
+-- 手动关闭
 function M.shutdown()
   stop_rosesong()
 end
 
--- 新增：重启 RoseSong
+-- 重启
 function M.restart()
   stop_rosesong()
   vim.defer_fn(function()
