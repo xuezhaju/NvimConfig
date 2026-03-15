@@ -109,3 +109,52 @@ end, { desc = "重启RoseSong" })
 
 -- 背景透明管理
 vim.keymap.set("n", "<leader>ut", ":TransparentToggle<CR>", { desc = "切换透明" })
+
+-- 🎨 主题切换
+vim.keymap.set("n", "<leader>th", function()
+  local themes = {
+    { name = "tokyonight", file = "tokyonight" },
+    { name = "catppuccin", file = "catppuccin" },
+    -- 可以继续添加更多主题
+    -- { name = "gruvbox", file = "gruvbox" },
+    -- { name = "everforest", file = "everforest" },
+  }
+  
+  -- 获取当前主题
+  local current = vim.g.colors_name or ""
+  
+  -- 找到下一个主题
+  local next_theme = themes[1]
+  for i, theme in ipairs(themes) do
+    if theme.name == current then
+      next_theme = themes[i % #themes + 1]
+      break
+    end
+  end
+  
+  -- 重新加载主题配置(debug)
+  require("themes." .. next_theme.file)
+  vim.notify("切换到主题: " .. next_theme.name, vim.log.levels.INFO)
+end, { desc = "切换主题" })
+
+-- 直接选择主题菜单
+vim.keymap.set("n", "<leader>tm", function()
+  local items = {
+    { "1", "🌙 tokyonight", "tokyonight" },
+    { "2", "🌸 catppuccin", "catppuccin" },
+    -- { "3", "🪨 gruvbox", "gruvbox" },
+    -- { "4", "🌳 everforest", "everforest" },
+  }
+  
+  vim.ui.select(items, {
+    prompt = "🎨 选择主题",
+    format_item = function(item)
+      return string.format("%s. %s", item[1], item[2])
+    end,
+  }, function(choice)
+    if choice then
+      require("themes." .. choice[3])
+      vim.notify("切换到主题: " .. choice[2], vim.log.levels.INFO)
+    end
+  end)
+end, { desc = "选择主题" })

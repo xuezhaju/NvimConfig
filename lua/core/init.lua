@@ -4,4 +4,4 @@ require("core.keymaps")
 require("core.autocmds")
 
 -- 设置颜色主题
-vim.cmd.colorscheme("catppuccin")
+-- vim.cmd.colorscheme("catppuccin")
