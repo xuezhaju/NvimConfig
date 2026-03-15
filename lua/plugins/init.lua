@@ -42,7 +42,7 @@ return {
       opts = {},
     },  -- ← 这里加了逗号
     
-    -- 消息通知美化
+    -- 消息通知美化（调整大小版）
     {
       "folke/noice.nvim",
       event = "VeryLazy",
@@ -61,9 +61,21 @@ return {
       },
       dependencies = {
         "MunifTanjim/nui.nvim",
-        "rcarriga/nvim-notify",
+        {
+          "rcarriga/nvim-notify",
+          opts = {
+            timeout = 3000,           -- 显示时间（毫秒）
+            max_width = 25,            -- 最大宽度（字符数）
+            minimum_width = 12,        -- 最小宽度（字符数）
+            fps = 30,                  -- 动画帧率
+            render = "minimal",         -- 渲染风格: default, compact, minimal, simple
+            stages = "fade_in_slide_out", -- 动画效果
+            top_down = true,            -- 从上往下显示
+            background_colour = "#000000", -- 背景色
+          },
+        },
       },
-    },  -- ← 这里确保有逗号
+    },
 
     -- 标签美化
     {
@@ -157,5 +169,5 @@ return {
             { "<S-h>", "<Cmd>BufferLineCyclePrev<CR>", desc = "上一个缓冲区" },
             { "<S-l>", "<Cmd>BufferLineCycleNext<CR>", desc = "下一个缓冲区" },
         },
-    },  -- ← 最后这个要有逗号吗？如果是最后一个可以不加，但建议统一加
+    },   
 }
