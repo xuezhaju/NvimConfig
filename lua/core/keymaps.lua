@@ -19,6 +19,22 @@ vim.keymap.set("n", "<C-Right>", ":vertical resize +2<CR>", { desc = "增加窗�
 vim.keymap.set("n", "<C-Down>", ":resize -2<CR>", { desc = "减小窗口高度" })
 vim.keymap.set("n", "<C-Up>", ":resize +2<CR>", { desc = "增加窗口高度" })
 
+-- 创建分屏
+vim.keymap.set("n", "<leader>sv", ":vsplit<CR>", { desc = "垂直分屏" })
+vim.keymap.set("n", "<leader>sh", ":split<CR>", { desc = "水平分屏" })
+vim.keymap.set("n", "<leader>sn", ":new<CR>", { desc = "新建水平分屏" })
+vim.keymap.set("n", "<leader>svn", ":vnew<CR>", { desc = "新建垂直分屏" })
+
+-- 关闭分屏
+vim.keymap.set("n", "<leader>sc", ":close<CR>", { desc = "关闭当前分屏" })
+vim.keymap.set("n", "<leader>so", ":only<CR>", { desc = "只保留当前分屏" })
+
+-- 移动窗口位置
+vim.keymap.set("n", "<leader>sH", "<C-w>H", { desc = "窗口移到最左边" })
+vim.keymap.set("n", "<leader>sJ", "<C-w>J", { desc = "窗口移到最下边" })
+vim.keymap.set("n", "<leader>sK", "<C-w>K", { desc = "窗口移到最上边" })
+vim.keymap.set("n", "<leader>sL", "<C-w>L", { desc = "窗口移到最右边" })
+
 -- 标签页导航
 vim.keymap.set("n", "<leader>tn", ":tabnew<CR>", { desc = "新建标签页" })
 vim.keymap.set("n", "<leader>to", ":tabonly<CR>", { desc = "关闭其他标签页" })
