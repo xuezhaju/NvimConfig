@@ -23,6 +23,9 @@ return {
     -- LSP 相关
     require("plugins.lsp.init"),
     require("plugins.lsp.cmp"),
+    
+    -- 背景毛玻璃效果
+    require("plugins.transparent"),
 
     -- nvim-navic - 代码导航
     {
@@ -65,8 +68,8 @@ return {
           "rcarriga/nvim-notify",
           opts = {
             timeout = 3000,           -- 显示时间（毫秒）
-            max_width = 25,            -- 最大宽度（字符数）
-            minimum_width = 12,        -- 最小宽度（字符数）
+            max_width = 40,            -- 最大宽度（字符数）
+            minimum_width = 20,        -- 最小宽度（字符数）
             fps = 30,                  -- 动画帧率
             render = "minimal",         -- 渲染风格: default, compact, minimal, simple
             stages = "fade_in_slide_out", -- 动画效果
