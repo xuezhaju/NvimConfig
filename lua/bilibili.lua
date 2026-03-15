@@ -61,6 +61,16 @@ local function get_now_playing()
   return "暂无播放"
 end
 
+-- 跳转指定数量
+local function skip_songs(count)
+  ensure_rosesong()
+  count = tonumber(count) or 1
+  for i = 1, count do
+    vim.fn.jobstart("rsg next", { detach = true })
+  end
+  vim.notify(string.format("⏭️ 跳过了 %d 首", count), vim.log.levels.INFO)
+end
+
 -- 显示菜单
 function M.show_menu()
   ensure_rosesong()
@@ -73,9 +83,9 @@ function M.show_menu()
     { "4", "⏭️  下一首", "切换到下一首" },
     { "5", "⏮️  上一首", "切换到上一首" },
     { "6", "⏹️  停止", "停止播放" },
-    { "7", "📋 显示播放列表", "查看当前列表" },
+    { "7", "⏭️⏭️  跳过多首", "输入数字跳转" },
     { "8", "ℹ️  当前播放", now_playing },
-    { "9", "🔚 退出RoseSong", "关闭音乐播放器" },  -- 新增：手动关闭选项
+    { "9", "🔚 退出RoseSong", "关闭音乐播放器" },
   }
   
   vim.ui.select(items, {
@@ -129,13 +139,16 @@ function M.show_menu()
       vim.notify("停止播放", vim.log.levels.INFO)
       
     elseif cmd == "7" then
-      vim.cmd("vnew | terminal rsg playlist")
-      vim.cmd("wincmd L | vertical resize 60")
+      vim.ui.input({ prompt = "跳过多首 (输入数字如 5 10): " }, function(input)
+        if input and input ~= "" then
+          skip_songs(input)
+        end
+      end)
       
     elseif cmd == "8" then
-      vim.cmd("terminal rsg playlist | head -20")
+      vim.notify(now_playing, vim.log.levels.INFO)
       
-    elseif cmd == "9" then  -- 新增：手动关闭选项
+    elseif cmd == "9" then
       stop_rosesong()
     end
   end)
@@ -164,10 +177,9 @@ function M.stop()
   vim.fn.jobstart("rsg stop", { detach = true })
 end
 
--- 显示播放列表
-function M.show_playlist()
-  vim.cmd("vnew | terminal rsg playlist")
-  vim.cmd("wincmd L | vertical resize 60")
+-- 跳过多首
+function M.skip(count)
+  skip_songs(count)
 end
 
 -- 新增：手动关闭 RoseSong
