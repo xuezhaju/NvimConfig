@@ -6,6 +6,17 @@ return {
     require("plugins.lsp.init"),
     require("plugins.lsp.cmp"),
 
+    -- 代码编译
+    {
+        "Zeioth/compiler.nvim",
+        dependencies = { "stevearc/overseer.nvim" }, -- 增强任务管理
+        keys = {
+            { "<F6>", "<cmd>CompilerOpen<CR>", desc = "打开编译器" },
+            { "<S-F6>", "<cmd>CompilerStop<cr><cmd>CompilerRedo<cr>", desc = "重新编译" },
+        },
+        config = true,
+    },
+
     -- nvim-navic - 代码导航
     {
       "SmiteshP/nvim-navic",

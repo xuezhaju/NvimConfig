@@ -158,3 +158,8 @@ vim.keymap.set("n", "<leader>tm", function()
     end
   end)
 end, { desc = "选择主题" })
+
+-- compiler.nvim 快捷键
+-- vim.keymap.set("n", "<F6>", "<cmd>CompilerOpen<cr>", { desc = "打开编译器" })
+-- vim.keymap.set("n", "<S-F6>", "<cmd>CompilerStop<cr><cmd>CompilerRedo<cr>", { desc = "停止并重新编译" })
+-- vim.keymap.set("n", "<S-F7>", "<cmd>CompilerToggleResults<cr>", { desc = "切换编译结果窗口" })
