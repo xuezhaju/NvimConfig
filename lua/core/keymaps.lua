@@ -73,6 +73,24 @@ vim.keymap.set("n", "<leader>bP", function()
   require("bilibili").prev()
 end, { desc = "上一首" })
 
+-- 前进指定数量（会弹出输入框）
+vim.keymap.set("n", "<leader>bf", function()
+  vim.ui.input({ prompt = "前进几首? " }, function(input)
+    if input and input ~= "" then
+      require("bilibili").forward(tonumber(input))
+    end
+  end)
+end, { desc = "前进指定数量" })
+
+-- 后退指定数量（会弹出输入框）
+vim.keymap.set("n", "<leader>bb", function()
+  vim.ui.input({ prompt = "后退几首? " }, function(input)
+    if input and input ~= "" then
+      require("bilibili").backward(tonumber(input))
+    end
+  end)
+end, { desc = "后退指定数量" })
+
 vim.keymap.set("n", "<leader>bs", function()
   require("bilibili").stop()
 end, { desc = "停止" })

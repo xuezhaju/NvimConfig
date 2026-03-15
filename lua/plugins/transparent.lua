@@ -16,6 +16,15 @@ return {
                 'NormalFloat', 'NvimTreeNormal', 'BufferLineFill',
                 'TelescopeNormal', 'TelescopeBorder', 'MasonNormal',
                 'LazyNormal', 'WhichKeyFloat', 'NotifyBackground',
+                "BufferLineFill",
+                "BufferLineBackground",
+                "BufferLineBufferSelected",
+                "BufferLineBufferVisible",
+                "BufferLineBuffer",
+                "BufferLineTab",
+                "BufferLineTabSelected",
+                "BufferLineTabClose",
+                "BufferLineIndicatorSelected",
             },
         })
         
