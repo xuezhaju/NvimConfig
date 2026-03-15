@@ -64,7 +64,7 @@ local function skip_forward(count)
   for i = 1, count do
     vim.fn.jobstart("rsg next", { detach = true })
   end
-  vim.notify(string.format("⏭️ 前进了 %d 首", count), vim.log.levels.INFO)
+  vim.notify(string.format(" 前进了 %d 首", count), vim.log.levels.INFO)
 end
 
 -- 后退指定数量
@@ -74,7 +74,7 @@ local function skip_backward(count)
   for i = 1, count do
     vim.fn.jobstart("rsg previous", { detach = true })
   end
-  vim.notify(string.format("⏮️ 后退了 %d 首", count), vim.log.levels.INFO)
+  vim.notify(string.format(" 后退了 %d 首", count), vim.log.levels.INFO)
 end
 
 -- 显示菜单
@@ -91,8 +91,8 @@ function M.show_menu()
     { " 停止", "停止播放" },
     { " 前进多首", "输入数字前进" },
     { " 后退多首", "输入数字后退" },
-    { "ℹ️  当前播放", now_playing },
-    { "🔚 退出RoseSong", "关闭音乐播放器" },
+    { " 当前播放", now_playing },
+    { " 退出RoseSong", "关闭音乐播放器" },
   }
   
   vim.ui.select(items, {
@@ -117,7 +117,7 @@ function M.show_menu()
         end
       end)
       
-    elseif cmd == "📁 输入收藏夹FID" then
+    elseif cmd == " 输入收藏夹FID" then
       vim.ui.input({ prompt = "输入收藏夹FID (数字): " }, function(input)
         if input and input ~= "" then
           ensure_rosesong()
@@ -126,43 +126,43 @@ function M.show_menu()
         end
       end)
       
-    elseif cmd == "⏯️  播放/暂停" then
+    elseif cmd == "  播放/暂停" then
       ensure_rosesong()
       vim.fn.jobstart("rsg play", { detach = true })
       vim.notify("播放/暂停", vim.log.levels.INFO)
       
-    elseif cmd == "⏭️  下一首" then
+    elseif cmd == "  下一首" then
       ensure_rosesong()
       vim.fn.jobstart("rsg next", { detach = true })
       vim.notify("下一首", vim.log.levels.INFO)
       
-    elseif cmd == "⏮️  上一首" then
+    elseif cmd == "  上一首" then
       ensure_rosesong()
       vim.fn.jobstart("rsg previous", { detach = true })
       vim.notify("上一首", vim.log.levels.INFO)
       
-    elseif cmd == "⏹️  停止" then
+    elseif cmd == "  停止" then
       vim.fn.jobstart("rsg stop", { detach = true })
       vim.notify("停止播放", vim.log.levels.INFO)
       
-    elseif cmd == "⏭️⏭️  前进多首" then
+    elseif cmd == "  前进多首" then
       vim.ui.input({ prompt = "前进几首? (输入数字): " }, function(input)
         if input and input ~= "" then
           skip_forward(input)
         end
       end)
       
-    elseif cmd == "⏮️⏮️  后退多首" then
+    elseif cmd == "  后退多首" then
       vim.ui.input({ prompt = "后退几首? (输入数字): " }, function(input)
         if input and input ~= "" then
           skip_backward(input)
         end
       end)
       
-    elseif cmd == "ℹ️  当前播放" then
+    elseif cmd == "  当前播放" then
       vim.notify(now_playing, vim.log.levels.INFO)
       
-    elseif cmd == "🔚 退出RoseSong" then
+    elseif cmd == " 退出RoseSong" then
       stop_rosesong()
     end
   end)

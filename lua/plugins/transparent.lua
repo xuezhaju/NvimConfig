@@ -12,35 +12,73 @@ return {
                 'CursorLine', 'CursorLineNr', 'StatusLine', 'StatusLineNC',
                 'EndOfBuffer',
             },
-            extra_groups = {  -- 额外组
-                'NormalFloat', 'NvimTreeNormal', 'BufferLineFill',
+            extra_groups = {  -- 额外组（根据你的输出来）
+                'NormalFloat', 'NvimTreeNormal',
                 'TelescopeNormal', 'TelescopeBorder', 'MasonNormal',
                 'LazyNormal', 'WhichKeyFloat', 'NotifyBackground',
-                "BufferLineFill",
-                "BufferLineBackground",
-                "BufferLineBufferSelected",
-                "BufferLineBufferVisible",
-                "BufferLineBuffer",
-                "BufferLineTab",
-                "BufferLineTabSelected",
-                "BufferLineTabClose",
-                "BufferLineIndicatorSelected",
+                -- 所有 bufferline 高亮组（根据你的输出来）
+                'BufferLineBackground',
+                'BufferLineBuffer',
+                'BufferLineBufferSelected',
+                'BufferLineBufferVisible',
+                'BufferLineCloseButton',
+                'BufferLineCloseButtonSelected',
+                'BufferLineCloseButtonVisible',
+                'BufferLineDiagnostic',
+                'BufferLineDiagnosticSelected',
+                'BufferLineDiagnosticVisible',
+                'BufferLineDuplicate',
+                'BufferLineDuplicateSelected',
+                'BufferLineDuplicateVisible',
+                'BufferLineError',
+                'BufferLineErrorDiagnostic',
+                'BufferLineErrorDiagnosticSelected',
+                'BufferLineErrorDiagnosticVisible',
+                'BufferLineErrorSelected',
+                'BufferLineErrorVisible',
+                'BufferLineFill',
+                'BufferLineGroupLabel',
+                'BufferLineGroupSeparator',
+                'BufferLineHint',
+                'BufferLineHintDiagnostic',
+                'BufferLineHintDiagnosticSelected',
+                'BufferLineHintDiagnosticVisible',
+                'BufferLineHintSelected',
+                'BufferLineHintVisible',
+                'BufferLineIndicatorSelected',
+                'BufferLineIndicatorVisible',
+                'BufferLineInfo',
+                'BufferLineInfoDiagnostic',
+                'BufferLineInfoDiagnosticSelected',
+                'BufferLineInfoDiagnosticVisible',
+                'BufferLineInfoSelected',
+                'BufferLineInfoVisible',
+                'BufferLineModified',
+                'BufferLineModifiedSelected',
+                'BufferLineModifiedVisible',
+                'BufferLineNumbers',
+                'BufferLineNumbersSelected',
+                'BufferLineNumbersVisible',
+                'BufferLineOffsetSeparator',
+                'BufferLinePick',
+                'BufferLinePickSelected',
+                'BufferLinePickVisible',
+                'BufferLineSeparator',
+                'BufferLineSeparatorSelected',
+                'BufferLineSeparatorVisible',
+                'BufferLineTab',
+                'BufferLineTabClose',
+                'BufferLineTabSelected',
+                'BufferLineTabSeparator',
+                'BufferLineTabSeparatorSelected',
+                'BufferLineTruncMarker',
+                'BufferLineWarning',
+                'BufferLineWarningDiagnostic',
+                'BufferLineWarningDiagnosticSelected',
+                'BufferLineWarningDiagnosticVisible',
+                'BufferLineWarningSelected',
+                'BufferLineWarningVisible',
             },
         })
-        
-        -- Bufferline 透明支持
-        pcall(function()
-            vim.g.transparent_groups = vim.list_extend(
-                vim.g.transparent_groups or {},
-                vim.tbl_map(function(v)
-                    return v.hl_group
-                end, vim.tbl_values(require('bufferline.config').highlights))
-            )
-        end)
-        
-        -- Lualine 透明支持
-        pcall(function()
-            require('transparent').clear_prefix('lualine')
-        end)
     end,
 }

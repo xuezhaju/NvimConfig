@@ -1,31 +1,10 @@
 -- ~/.config/nvim/lua/plugins/init.lua
 return {
-    -- 首先加载主题
-    { 
-        "catppuccin/nvim", 
-        name = "catppuccin", 
-        priority = 1000,
-        config = function()
-            vim.cmd.colorscheme("catppuccin")
-        end,
-    },
-    
-    -- 工具类插件
-    require("plugins.telescope"),
-    require("plugins.lualine"),
-    
-    -- Treesitter
-    require("plugins.treesitter"),
-    
-    -- 文件树
-    require("plugins.nvim-tree"),
-    
-    -- LSP 相关
+    require("themes.init"),
+
+    -- 🔧 LSP 和补全配置（加在这里）
     require("plugins.lsp.init"),
     require("plugins.lsp.cmp"),
-    
-    -- 背景毛玻璃效果
-    require("plugins.transparent"),
 
     -- nvim-navic - 代码导航
     {
@@ -36,16 +15,62 @@ return {
           auto_attach = true,
         },
       },
-    },  -- ← 这里加了逗号
+    },
 
+    -- bufferline 标签美化（梯形风格）
+    {
+        'akinsho/bufferline.nvim',
+        version = "*",
+        dependencies = 'nvim-tree/nvim-web-devicons',
+        event = "BufEnter",
+        config = function()
+            require("bufferline").setup({
+                options = {
+                    mode = "buffers",
+                    numbers = "none",
+                    close_command = "bdelete! %d",
+                    right_mouse_command = "bdelete! %d",
+                    left_mouse_command = "buffer %d",
+                    indicator = {
+                        icon = '▎',
+                        style = 'icon',
+                    },
+                    buffer_close_icon = '󰅖',
+                    modified_icon = '●',
+                    close_icon = '󰅖',
+                    left_trunc_marker = '',
+                    right_trunc_marker = '',
+                    diagnostics = "nvim_lsp",
+                    offsets = {
+                        {
+                            filetype = "NvimTree",
+                            text = "File Explorer",
+                            text_align = "left",
+                            separator = true,
+                        }
+                    },
+                    separator_style = "slant",  -- 这里设置梯形风格
+                    always_show_bufferline = true,
+                }
+            })
+        end,
+        keys = {
+            { "<leader>1", "<Cmd>BufferLineGoToBuffer 1<CR>", desc = "转到缓冲区1" },
+            { "<leader>2", "<Cmd>BufferLineGoToBuffer 2<CR>", desc = "转到缓冲区2" },
+            { "<leader>3", "<Cmd>BufferLineGoToBuffer 3<CR>", desc = "转到缓冲区3" },
+            { "<leader>4", "<Cmd>BufferLineGoToBuffer 4<CR>", desc = "转到缓冲区4" },
+            { "<S-h>", "<Cmd>BufferLineCyclePrev<CR>", desc = "上一个缓冲区" },
+            { "<S-l>", "<Cmd>BufferLineCycleNext<CR>", desc = "下一个缓冲区" },
+        },
+    },
     -- 撤销树
     {
       "XXiaoA/atone.nvim",
       cmd = "Atone",
       opts = {},
-    },  -- ← 这里加了逗号
+    },
     
-    -- 消息通知美化（调整大小版）
+    -- 消息通知美化
     {
       "folke/noice.nvim",
       event = "VeryLazy",
@@ -67,31 +92,17 @@ return {
         {
           "rcarriga/nvim-notify",
           opts = {
-            timeout = 3000,           -- 显示时间（毫秒）
-            max_width = 40,            -- 最大宽度（字符数）
-            minimum_width = 20,        -- 最小宽度（字符数）
-            fps = 30,                  -- 动画帧率
-            render = "minimal",         -- 渲染风格: default, compact, minimal, simple
-            stages = "fade_in_slide_out", -- 动画效果
-            top_down = true,            -- 从上往下显示
-            background_colour = "#000000", -- 背景色
+            timeout = 3000,
+            max_width = 40,
+            minimum_width = 20,
+            fps = 30,
+            render = "minimal",
+            stages = "fade_in_slide_out",
+            top_down = true,
+            background_colour = "#000000",
           },
         },
       },
-    },
-
-    -- 标签美化
-    {
-        "akinsho/bufferline.nvim",
-        dependencies = {
-            "nvim-tree/nvim-web-devicons",
-            "moll/vim-bbye",  -- 更好的关闭缓冲区
-        },
-        version = "*",
-        event = "BufEnter",
-        config = function()
-            require("plugins.bufferline")
-        end,
     },
 
     -- 启动页美化
@@ -103,7 +114,7 @@ return {
         },
         event = "VimEnter",
         config = function()
-            require("plugins.alpha")
+            require("alpha").setup(require("alpha.themes.dashboard").config)
         end,
     },
 
@@ -127,50 +138,4 @@ return {
             require("Comment").setup()
         end,
     },
-    
-    -- 标签美化（重复了？你这里有两个 bufferline，保留一个即可）
-    -- 如果不需要第二个，可以删除这个
-    {
-        "akinsho/bufferline.nvim",
-        dependencies = "nvim-tree/nvim-web-devicons",
-        event = "BufEnter",
-        config = function()
-            require("bufferline").setup({
-                options = {
-                    mode = "buffers",
-                    numbers = "none",
-                    close_command = "bdelete! %d",
-                    right_mouse_command = "bdelete! %d",
-                    left_mouse_command = "buffer %d",
-                    middle_mouse_command = nil,
-                    indicator = {
-                        icon = '▎',
-                        style = 'icon',
-                    },
-                    buffer_close_icon = '',
-                    modified_icon = '●',
-                    close_icon = '',
-                    left_trunc_marker = '',
-                    right_trunc_marker = '',
-                    diagnostics = "nvim_lsp",
-                    offsets = {
-                        {
-                            filetype = "NvimTree",
-                            text = "File Explorer",
-                            text_align = "left",
-                            separator = true,
-                        }
-                    },
-                }
-            })
-        end,
-        keys = {
-            { "<leader>1", "<Cmd>BufferLineGoToBuffer 1<CR>", desc = "转到缓冲区1" },
-            { "<leader>2", "<Cmd>BufferLineGoToBuffer 2<CR>", desc = "转到缓冲区2" },
-            { "<leader>3", "<Cmd>BufferLineGoToBuffer 3<CR>", desc = "转到缓冲区3" },
-            { "<leader>4", "<Cmd>BufferLineGoToBuffer 4<CR>", desc = "转到缓冲区4" },
-            { "<S-h>", "<Cmd>BufferLineCyclePrev<CR>", desc = "上一个缓冲区" },
-            { "<S-l>", "<Cmd>BufferLineCycleNext<CR>", desc = "下一个缓冲区" },
-        },
-    },   
 }

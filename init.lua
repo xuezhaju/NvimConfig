@@ -8,3 +8,4 @@ require("config.lazy")
 
 -- 加载核心配置
 require("core")
+-- vim.cmd.colorscheme("tokyonight")
