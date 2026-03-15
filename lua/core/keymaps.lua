@@ -55,3 +55,33 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "上移选中行" })
 -- 保持选中状态的缩进
 vim.keymap.set("v", "<", "<gv", { desc = "向左缩进并保持选中" })
 vim.keymap.set("v", ">", ">gv", { desc = "向右缩进并保持选中" })
+
+-- 文件树
+vim.keymap.set("n", "<leader>e", "<Cmd>NvimTreeToggle<CR>", { desc = "切换文件树" })
+vim.keymap.set("n", "<leader>E", "<Cmd>NvimTreeFocus<CR>", { desc = "聚焦文件树" })
+vim.keymap.set("n", "<leader>r", "<Cmd>NvimTreeRefresh<CR>", { desc = "刷新文件树" })
+
+-- 🎵 Bilibili 音乐控制
+vim.keymap.set("n", "<leader>bm", function()
+  require("bilibili").show_menu()
+end, { desc = "B站音乐控制菜单" })
+
+vim.keymap.set("n", "<leader>bp", function()
+  require("bilibili").play_pause()
+end, { desc = "播放/暂停" })
+
+vim.keymap.set("n", "<leader>bn", function()
+  require("bilibili").next()
+end, { desc = "下一首" })
+
+vim.keymap.set("n", "<leader>bP", function()
+  require("bilibili").prev()
+end, { desc = "上一首" })
+
+vim.keymap.set("n", "<leader>bs", function()
+  require("bilibili").stop()
+end, { desc = "停止" })
+
+vim.keymap.set("n", "<leader>bl", function()
+  require("bilibili").show_playlist()
+end, { desc = "显示播放列表" })

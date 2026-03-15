@@ -29,8 +29,8 @@ return {
             },
         })
         
-        vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", { desc = "切换文件树" })
-        vim.keymap.set("n", "<leader>E", ":NvimTreeFocus<CR>", { desc = "聚焦文件树" })
-        vim.keymap.set("n", "<leader>r", ":NvimTreeRefresh<CR>", { desc = "刷新文件树" })
+        -- vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", { desc = "切换文件树" })
+        -- vim.keymap.set("n", "<leader>E", ":NvimTreeFocus<CR>", { desc = "聚焦文件树" })
+        -- vim.keymap.set("n", "<leader>r", ":NvimTreeRefresh<CR>", { desc = "刷新文件树" })
     end,
 }
