@@ -57,9 +57,9 @@ vim.keymap.set("v", "<", "<gv", { desc = "向左缩进并保持选中" })
 vim.keymap.set("v", ">", ">gv", { desc = "向右缩进并保持选中" })
 
 -- 文件树
-vim.keymap.set("n", "<leader>e", "<Cmd>NvimTreeToggle<CR>", { desc = "切换文件树" })
-vim.keymap.set("n", "<leader>E", "<Cmd>NvimTreeFocus<CR>", { desc = "聚焦文件树" })
-vim.keymap.set("n", "<leader>r", "<Cmd>NvimTreeRefresh<CR>", { desc = "刷新文件树" })
+-- vim.keymap.set("n", "<leader>e", "<Cmd>NvimTreeToggle<CR>", { desc = "切换文件树" })
+-- vim.keymap.set("n", "<leader>E", "<Cmd>NvimTreeFocus<CR>", { desc = "聚焦文件树" })
+-- vim.keymap.set("n", "<leader>r", "<Cmd>NvimTreeRefresh<CR>", { desc = "刷新文件树" })
 
 -- 🎵 Bilibili 音乐控制
 vim.keymap.set("n", "<leader>bm", function()
@@ -85,3 +85,11 @@ end, { desc = "停止" })
 vim.keymap.set("n", "<leader>bl", function()
   require("bilibili").show_playlist()
 end, { desc = "显示播放列表" })
+
+vim.keymap.set("n", "<leader>bx", function()
+  require("bilibili").shutdown()
+end, { desc = "关闭RoseSong" })
+
+vim.keymap.set("n", "<leader>bR", function()
+  require("bilibili").restart()
+end, { desc = "重启RoseSong" })

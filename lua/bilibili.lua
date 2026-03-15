@@ -1,4 +1,3 @@
--- ~/.config/nvim/lua/bilibili.lua
 local M = {}
 
 -- 检查 RoseSong 是否运行
@@ -16,6 +15,39 @@ local function ensure_rosesong()
     vim.notify("RoseSong 已启动", vim.log.levels.INFO)
     vim.defer_fn(function() end, 1000)
   end
+end
+
+-- 新增：关闭 RoseSong
+local function stop_rosesong()
+  if is_rosesong_running() then
+    vim.fn.jobstart("rsg stop", { detach = true })
+    vim.notify("RoseSong 已关闭", vim.log.levels.INFO)
+  end
+end
+
+-- 新增：退出 Neovim 时自动关闭 RoseSong
+local function setup_autoclose()
+  -- 创建自动命令组
+  local augroup = vim.api.nvim_create_augroup("RoseSongAutoClose", { clear = true })
+  
+  -- 在退出 Neovim 时自动关闭 RoseSong
+  vim.api.nvim_create_autocmd("VimLeavePre", {
+    group = augroup,
+    callback = function()
+      if is_rosesong_running() then
+        vim.fn.jobstart("rsg stop", { detach = true })
+      end
+    end,
+  })
+  
+  -- 在退出 Neovim 后强制清理（备用）
+  vim.api.nvim_create_autocmd("VimLeave", {
+    group = augroup,
+    callback = function()
+      -- 确保所有子进程都被清理
+      vim.fn.jobstart("pkill -f rosesong", { detach = true })
+    end,
+  })
 end
 
 -- 获取当前播放状态
@@ -43,6 +75,7 @@ function M.show_menu()
     { "6", "⏹️  停止", "停止播放" },
     { "7", "📋 显示播放列表", "查看当前列表" },
     { "8", "ℹ️  当前播放", now_playing },
+    { "9", "🔚 退出RoseSong", "关闭音乐播放器" },  -- 新增：手动关闭选项
   }
   
   vim.ui.select(items, {
@@ -101,33 +134,56 @@ function M.show_menu()
       
     elseif cmd == "8" then
       vim.cmd("terminal rsg playlist | head -20")
+      
+    elseif cmd == "9" then  -- 新增：手动关闭选项
+      stop_rosesong()
     end
   end)
 end
 
--- 添加快捷函数
+-- 播放/暂停
 function M.play_pause()
   ensure_rosesong()
   vim.fn.jobstart("rsg play", { detach = true })
 end
 
+-- 下一首
 function M.next()
   ensure_rosesong()
   vim.fn.jobstart("rsg next", { detach = true })
 end
 
+-- 上一首
 function M.prev()
   ensure_rosesong()
   vim.fn.jobstart("rsg previous", { detach = true })
 end
 
+-- 停止
 function M.stop()
   vim.fn.jobstart("rsg stop", { detach = true })
 end
 
+-- 显示播放列表
 function M.show_playlist()
   vim.cmd("vnew | terminal rsg playlist")
   vim.cmd("wincmd L | vertical resize 60")
 end
+
+-- 新增：手动关闭 RoseSong
+function M.shutdown()
+  stop_rosesong()
+end
+
+-- 新增：重启 RoseSong
+function M.restart()
+  stop_rosesong()
+  vim.defer_fn(function()
+    ensure_rosesong()
+  end, 1000)
+end
+
+-- 初始化自动关闭功能
+setup_autoclose()
 
 return M
