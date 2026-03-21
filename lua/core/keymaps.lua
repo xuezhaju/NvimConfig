@@ -179,3 +179,17 @@ end, { desc = "选择主题" })
 -- vim.keymap.set("n", "<F6>", "<cmd>CompilerOpen<cr>", { desc = "打开编译器" })
 -- vim.keymap.set("n", "<S-F6>", "<cmd>CompilerStop<cr><cmd>CompilerRedo<cr>", { desc = "停止并重新编译" })
 -- vim.keymap.set("n", "<S-F7>", "<cmd>CompilerToggleResults<cr>", { desc = "切换编译结果窗口" })
+
+-- 打开终端
+vim.keymap.set("n", "<leader>tt", ":terminal<CR>", { desc = "打开终端" })
+vim.keymap.set("n", "<leader>tv", ":vsplit | terminal<CR>", { desc = "垂直分屏打开终端" })
+vim.keymap.set("n", "<leader>th", ":split | terminal<CR>", { desc = "水平分屏打开终端" })
+
+-- 在终端模式下按 Esc 退出终端模式（回到普通模式）
+vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "退出终端模式" })
+
+-- 在终端模式下按 Ctrl+hjkl 切换窗口
+vim.keymap.set("t", "<C-h>", "<C-\\><C-n><C-w>h", { desc = "切换到左侧窗口" })
+vim.keymap.set("t", "<C-j>", "<C-\\><C-n><C-w>j", { desc = "切换到下方窗口" })
+vim.keymap.set("t", "<C-k>", "<C-\\><C-n><C-w>k", { desc = "切换到上方窗口" })
+vim.keymap.set("t", "<C-l>", "<C-\\><C-n><C-w>l", { desc = "切换到右侧窗口" })

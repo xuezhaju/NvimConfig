@@ -6,6 +6,9 @@ return {
     require("plugins.lsp.init"),
     require("plugins.lsp.cmp"),
 
+    -- Markdown 
+    require("plugins.markdown-plugin"),
+
     -- 代码编译
     {
         "Zeioth/compiler.nvim",
