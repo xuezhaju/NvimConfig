@@ -193,3 +193,15 @@ vim.keymap.set("t", "<C-h>", "<C-\\><C-n><C-w>h", { desc = "切换到左侧窗�
 vim.keymap.set("t", "<C-j>", "<C-\\><C-n><C-w>j", { desc = "切换到下方窗口" })
 vim.keymap.set("t", "<C-k>", "<C-\\><C-n><C-w>k", { desc = "切换到上方窗口" })
 vim.keymap.set("t", "<C-l>", "<C-\\><C-n><C-w>l", { desc = "切换到右侧窗口" })
+
+-- Markdown 渲染控制
+vim.keymap.set("n", "<leader>mr", function()
+  require("render-markdown").setup({})
+  vim.notify("Markdown 渲染已开启", vim.log.levels.INFO)
+end, { desc = "开启 Markdown 渲染" })
+
+vim.keymap.set("n", "<leader>mR", function()
+  vim.cmd("e!")  -- 重新加载文件关闭渲染
+  vim.notify("Markdown 渲染已关闭", vim.log.levels.INFO)
+end, { desc = "关闭 Markdown 渲染" })
+

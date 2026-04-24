@@ -7,7 +7,8 @@ return {
     require("plugins.lsp.cmp"),
 
     -- Markdown 
-    require("plugins.markdown-plugin"),
+    -- require("plugins.markdown-plugin"),
+    require("plugins.render-markdown"),
 
     -- 代码编译
     {
