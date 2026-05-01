@@ -23,6 +23,7 @@ return {
                     "pyright",
                     "ts_ls",           -- 注意：从 tsserver 改名为 ts_ls
                     "rust_analyzer",
+                    "clangd",
                 },
                 automatic_installation = true,
             })

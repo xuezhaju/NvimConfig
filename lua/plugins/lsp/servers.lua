@@ -1,4 +1,3 @@
--- ~/.config/nvim/lua/plugins/lsp/servers.lua
 -- Mason 配置
 local status_ok, mason = pcall(require, "mason")
 if status_ok then
@@ -13,6 +12,7 @@ if status_ok then
             "pyright",
             "typescript-language-server",
             "rust-analyzer",
+            "clangd",                          -- 添加 C++ 语言服务器
         },
     })
 end
@@ -58,6 +58,7 @@ local servers = {
     "pyright",
     "tsserver",
     "rust_analyzer",
+    "clangd",                              -- 添加 clangd
 }
 
 for _, server in ipairs(servers) do
@@ -79,6 +80,13 @@ for _, server in ipairs(servers) do
                 telemetry = { enable = false },
             }
         }
+    end
+    
+    -- clangd 可选配置
+    if server == "clangd" then
+        server_opts.capabilities = capabilities
+        -- 如果需要指定 C++ 标准
+        -- server_opts.cmd = { "clangd", "--clang-tidy", "--header-insertion=iwyu" }
     end
     
     -- 安全地设置每个服务器

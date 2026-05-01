@@ -16,8 +16,8 @@ local function on_attach(client, bufnr)
     vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
     vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
     
-    -- 如果服务器支持，启用格式化
-    if client.supports_method("textDocument/formatting") then
+    -- 修复：使用新的方式检查格式化支持
+    if client.server_capabilities.documentFormattingProvider then
         vim.keymap.set("n", "<leader>f", function()
             vim.lsp.buf.format({ async = true })
         end, opts)
@@ -38,6 +38,22 @@ end
 
 -- 检查是否支持新 API
 if vim.lsp.config then
+    -- C/C++ 语言服务器 (clangd)
+    vim.lsp.config("clangd", {
+        cmd = { "clangd", "--background-index", "--clang-tidy", "--header-insertion=iwyu" },
+        filetypes = { "c", "cpp", "cxx", "cc", "h", "hpp", "hxx" },
+        root_markers = { 
+            "compile_commands.json", 
+            ".clangd", 
+            ".git", 
+            "CMakeLists.txt", 
+            "Makefile",
+            "build.ninja"
+        },
+        capabilities = capabilities,
+        on_attach = on_attach,
+    })
+
     -- Lua 语言服务器
     vim.lsp.config("lua_ls", {
         cmd = { "lua-language-server" },
@@ -135,6 +151,7 @@ if vim.lsp.config then
         "pyright", 
         "ts_ls",
         "rust_analyzer",
+        "clangd",
     })
     
 else

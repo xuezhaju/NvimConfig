@@ -6,6 +6,9 @@ return {
     require("plugins.lsp.init"),
     require("plugins.lsp.cmp"),
 
+    -- flutter
+    require("plugins.flutter-tools"),
+
     -- Markdown 
     -- require("plugins.markdown-plugin"),
     require("plugins.render-markdown"),
