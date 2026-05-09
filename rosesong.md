@@ -2,7 +2,7 @@
 
 本配置集成了 B站音乐播放功能，让你可以在 Neovim 中直接听 B站的收藏夹音乐。
 
-[原项目链接]()
+原项目链接: <https://github.com/huahuadeliaoliao/RoseSong>
 
 ### 安装 RoseSong
 
