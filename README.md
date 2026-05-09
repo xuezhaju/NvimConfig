@@ -49,7 +49,11 @@ git clone https://github.com/你的用户名/nvim-config.git ~/.config/nvim
 nvim +Lazy sync +qa
 ```
 
-## ⌨️ 快捷键大全
+
+## 快捷键、功能讲解
+
+### B站音乐播放功能讲解
+[讲解专栏文档](./rosesong.md)
 
 ### 基础操作
 | 快捷键 | 功能 |
