@@ -47,3 +47,14 @@ for key, value in pairs(options) do
     vim.opt[key] = value
 end
 
+-- C/C++ 文件使用 8 空格缩进（Linux 内核风格）
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "c", "cpp" },
+    callback = function()
+        vim.opt_local.tabstop = 8
+        vim.opt_local.shiftwidth = 8
+        vim.opt_local.softtabstop = 8
+        vim.opt_local.expandtab = false
+        vim.opt_local.colorcolumn = "81"
+    end,
+})
