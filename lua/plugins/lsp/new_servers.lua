@@ -54,6 +54,14 @@ if vim.lsp.config then
         on_attach = on_attach,
     })
 
+    -- CMake 语言服务器
+    vim.lsp.config("neocmakelsp", {
+        cmd = { "neocmakelsp" },
+        filetypes = { "cmake" },
+        capabilities = capabilities,
+        on_attach = on_attach,
+    })
+
     -- Lua 语言服务器
     vim.lsp.config("lua_ls", {
         cmd = { "lua-language-server" },

@@ -43,7 +43,7 @@
 mv ~/.config/nvim ~/.config/nvim.bak
 
 # 克隆本仓库
-git clone https://github.com/你的用户名/nvim-config.git ~/.config/nvim
+git clone https://github.com/xuezhaju/NvimConfig.git ~/.config/nvim
 
 # 打开 Neovim，Lazy.nvim 会自动安装所有插件
 nvim +Lazy sync +qa

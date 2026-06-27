@@ -205,3 +205,19 @@ vim.keymap.set("n", "<leader>mR", function()
   vim.notify("Markdown 渲染已关闭", vim.log.levels.INFO)
 end, { desc = "关闭 Markdown 渲染" })
 
+-- Markdown插件按键绑定
+vim.keymap.set("n", "<leader>mt", function()
+    local cols = vim.fn.input("列数: ")
+    local rows = vim.fn.input("行数: ")
+    if cols ~= "" and rows ~= "" then
+        local c = tonumber(cols)
+        local r = tonumber(rows)
+        local header = "| " .. table.concat(vim.tbl_map(function(i) return "列" .. i end, vim.tbl_range(1, c)), " | ") .. " |"
+        local separator = "|" .. string.rep("---|", c)
+        local lines = { header, separator }
+        for i = 1, r do
+            lines[#lines + 1] = "| " .. table.concat(vim.tbl_map(function(j) return "  " end, vim.tbl_range(1, c)), " | ") .. " |"
+        end
+        vim.api.nvim_put(lines, "c", true, true)
+    end
+end, { desc = "创建 Markdown 表格" })
